@@ -116,23 +116,24 @@ The pipeline is designed to process up to 500 stamps per business day. Surge cap
 
 The core protocol is implemented as an ERC-20 token with mint/burn privileges controlled by a `TimelockController` and a `StampVaultManager` contract. The deployment uses OpenZeppelin's `TransparentUpgradeableProxy` pattern to allow governance-approved upgrades.
 
-Key contracts:
+Key contracts are summarized in Table \ref{tab:contracts}.
 
-\begin{table}[H]
+\begin{table*}[t]
 \centering
-\caption{Core smart contracts}
+\caption{Core smart contracts deployed on Arbitrum One.}
+\label{tab:contracts}
 \small
 \begin{tabular}{@{}lll@{}}
 \toprule
 \textbf{Contract} & \textbf{Address} & \textbf{Description} \\
 \midrule
 BolloToken & \texttt{0x4B0...11o} & ERC-20 with controlled mint/burn \\
-StampVaultManager & \texttt{0x7aB...c3d} & Mint auth + PoR integration \\
-veBolloGovernor & \texttt{0x9eF...a1b} & Governance (OZ Governor) \\
+StampVaultManager & \texttt{0x7aB...c3d} & Mint authorization + PoR integration \\
+veBolloGovernor & \texttt{0x9eF...a1b} & Governance (OpenZeppelin Governor + Timelock) \\
 RedemptionRouter & \texttt{0x2cD...f8e} & Burn + redemption fee logic \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 All contracts are verified on Arbiscan and have undergone a full audit by CertiK (Report ID: BOLLO-2025-Q3, Security Score: 94/100, 0 critical findings).
 
@@ -167,24 +168,27 @@ This creates a tight band around the €2.00 peg, bounded by gas costs and redem
 
 ## Comparative Analysis
 
-\begin{table}[H]
+A comparative overview of peg mechanisms across major pegged assets is presented in Table \ref{tab:peg-comparison}.
+
+\begin{table*}[t]
 \centering
-\caption{Peg mechanism comparison across major pegged assets}
+\caption{Peg mechanism comparison across major pegged assets. \$BOLLO is the only asset redeemable for a physical government-issued fiscal instrument.}
+\label{tab:peg-comparison}
 \small
 \begin{tabular}{@{}lccc@{}}
 \toprule
 \textbf{Property} & \textbf{USDC} & \textbf{DAI} & \textbf{\$BOLLO} \\
 \midrule
-Collateral type & USD reserves & Mixed crypto/RWA & Revenue stamps \\
-Issuer & Circle (US) & MakerDAO & Bollo Protocol \\
-Redeemable for & USD (bank) & Via PSM & Physical stamp \\
-Backing ratio & 1:1 & $\geq$1:1 & 1:1 (verified) \\
-Collateral audit & Monthly & On-chain & On-chain + physical \\
-Can be affixed to invoice & No & No & \textbf{Yes} \\
-Sovereign guarantee & No & No & \textbf{Italian Republic} \\
+Collateral type & USD bank reserves & Mixed crypto / RWA & Physical revenue stamps \\
+Issuer jurisdiction & United States & Decentralized & Italian Republic \\
+Redeemable for & USD (bank wire) & Via PSM module & Physical \emph{marca da bollo} \\
+Backing ratio & 1:1 & $\geq$1:1 (overcollateralized) & 1:1 (physically verified) \\
+Collateral audit & Monthly attestation & On-chain & On-chain + physical vault audit \\
+Can be affixed to an invoice & No & No & \textbf{Yes} \\
+Sovereign guarantee on underlying & No & No & \textbf{Italian Republic (D.P.R. 642/1972)} \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 # Tokenomics
 
@@ -196,9 +200,12 @@ As of February 2026, circulating supply stands at approximately 14,200,000 \$BOL
 
 ## Allocation
 
-\begin{table}[H]
+The token allocation is detailed in Table \ref{tab:allocation}.
+
+\begin{table}[b]
 \centering
-\caption{Token allocation}
+\caption{Token allocation breakdown.}
+\label{tab:allocation}
 \small
 \begin{tabular}{@{}lr@{}}
 \toprule
@@ -301,43 +308,49 @@ The Bollo DAO operates through the `veBolloGovernor` contract, implementing Open
 
 ## Proposal Categories
 
-\begin{table}[H]
+Governance proposal types and their parameters are listed in Table \ref{tab:bip}.
+
+\begin{table*}[b]
 \centering
-\caption{BIP proposal categories}
+\caption{BIP proposal categories, quorum requirements, and timelock delays.}
+\label{tab:bip}
 \small
 \begin{tabular}{@{}llll@{}}
 \toprule
 \textbf{Type} & \textbf{Quorum} & \textbf{Timelock} & \textbf{Example} \\
 \midrule
-Parameter change & 5\% & 48h & Adjust redemption fee \\
-Treasury spend & 10\% & 72h & Fund new vault facility \\
-Collateral expansion & 15\% & 7 days & Add €16 stamps \\
-Emergency action & 1\% & None & Pause minting \\
+Parameter change & 5\% of veBOLLO & 48 hours & Adjust redemption fee from 0.3\% to 0.25\% \\
+Treasury spend & 10\% of veBOLLO & 72 hours & Fund secondary vault facility in Turin \\
+Collateral expansion & 15\% of veBOLLO & 7 days & Add €16 \emph{marca da bollo} for \emph{atti notarili} \\
+Emergency action & 1\% of veBOLLO & None & Pause minting during exploit \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 A notable pending proposal: **BIP-012: Expand Accepted Collateral to Include €16 Marca da Bollo for Atti Notarili**, which would introduce a second collateral tier for higher-denomination stamps used in notarial and public administration contexts.
 
 # Roadmap
 
-\begin{table}[H]
+The protocol roadmap is summarized in Table \ref{tab:roadmap}.
+
+\begin{table*}[t]
 \centering
-\caption{Protocol roadmap}
+\caption{Protocol development roadmap and current status.}
+\label{tab:roadmap}
 \small
-\begin{tabular}{@{}llp{3cm}@{}}
+\begin{tabular}{@{}llp{8cm}@{}}
 \toprule
 \textbf{Quarter} & \textbf{Status} & \textbf{Milestone} \\
 \midrule
-Q3 2025 & \checkmark & Genesis mint, Arbitrum deploy, CertiK audit \\
-Q4 2025 & \checkmark & veBOLLO governance, Chainlink PoR, staking \\
-Q1 2026 & Active & Cross-chain via LayerZero OFT \\
-Q2 2026 & Planned & Bollo Card\texttrademark{} (Visa), Deloitte audit \\
-Q3 2026 & Planned & Secondary vault (Turin), €16 tier \\
-Q4 2026 & Planned & Lending Protocol (Aave V3 fork) \\
+Q3 2025 & Complete & Genesis mint on Arbitrum One, CertiK audit (94/100), initial liquidity on Camelot DEX \\
+Q4 2025 & Complete & veBOLLO governance launch, Chainlink Proof-of-Reserve integration, single-sided staking vaults \\
+Q1 2026 & Active & Cross-chain expansion to Base and Optimism via LayerZero OFT standard \\
+Q2 2026 & Planned & Bollo Card\texttrademark{} (Visa debit), physical vault audit by Deloitte Italia \\
+Q3 2026 & Planned & Secondary custody vault (Turin), €16 \emph{marca da bollo} collateral tier \\
+Q4 2026 & Planned & Bollo Lending Protocol — isolated markets via Aave V3 fork, 85\% LTV \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 # Conclusion
 
