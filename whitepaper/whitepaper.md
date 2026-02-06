@@ -145,7 +145,7 @@ Unlike algorithmic stablecoins, \$BOLLO derives its peg from a physical reality:
 
 We define the intrinsic value $V$ of one \$BOLLO token as:
 
-$$V_{\text{BOLLO}} = V_{\text{stamp}} - f_{\text{exit}} = 2.00 - (2.00 \times 0.003) = €1.994$$
+$$V_{\text{BOLLO}} = V_{\text{stamp}} - f_{\text{exit}} = 2.00 - 0.006 = \text{€}1.994$$
 
 where $f_{\text{exit}}$ is the 0.3% redemption fee. The effective floor is therefore €1.994.
 
@@ -156,13 +156,13 @@ If \$BOLLO trades below €2.00 on secondary markets:
 1. Arbitrageur buys \$BOLLO at discount
 2. Burns \$BOLLO via RedemptionRouter
 3. Receives physical *marca da bollo* worth €2.00
-4. Profit: $€2.00 - P_{\text{market}} - f_{\text{exit}}$
+4. Profit: $2.00 - P_\text{mkt} - f_\text{exit}$
 
 If \$BOLLO trades above €2.00:
 
 1. Arbitrageur deposits ETH equivalent to mint new \$BOLLO at €2.00
 2. Sells \$BOLLO on secondary market at premium
-3. Profit: $P_{\text{market}} - €2.00 - f_{\text{gas}}$
+3. Profit: $P_\text{mkt} - 2.00 - f_\text{gas}$
 
 This creates a tight band around the €2.00 peg, bounded by gas costs and redemption fees.
 
@@ -175,19 +175,19 @@ A comparative overview of peg mechanisms across major pegged assets is presented
 \caption{Peg mechanism comparison across major pegged assets. \$BOLLO is the only asset redeemable for a physical government-issued fiscal instrument.}
 \label{tab:peg-comparison}
 \small
-\begin{tabular}{@{}lccc@{}}
+\begin{tabularx}{\textwidth}{@{}lXXX@{}}
 \toprule
 \textbf{Property} & \textbf{USDC} & \textbf{DAI} & \textbf{\$BOLLO} \\
 \midrule
-Collateral type & USD bank reserves & Mixed crypto / RWA & Physical revenue stamps \\
+Collateral type & USD bank reserves & Mixed crypto/RWA & Physical revenue stamps \\
 Issuer jurisdiction & United States & Decentralized & Italian Republic \\
 Redeemable for & USD (bank wire) & Via PSM module & Physical \emph{marca da bollo} \\
-Backing ratio & 1:1 & $\geq$1:1 (overcollateralized) & 1:1 (physically verified) \\
-Collateral audit & Monthly attestation & On-chain & On-chain + physical vault audit \\
-Can be affixed to an invoice & No & No & \textbf{Yes} \\
-Sovereign guarantee on underlying & No & No & \textbf{Italian Republic (D.P.R. 642/1972)} \\
+Backing ratio & 1:1 & $\geq$1:1 (overcoll.) & 1:1 (physically verified) \\
+Collateral audit & Monthly attestation & On-chain & On-chain + physical audit \\
+Affixable to invoice & No & No & \textbf{Yes} \\
+Sovereign guarantee & No & No & \textbf{Italian Republic} \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{table*}
 
 # Tokenomics
@@ -243,7 +243,9 @@ The \$BOLLO protocol generates yield from three sources:
 
 Total protocol revenue is distributed weekly:
 
-$$R_{\text{week}} = \sum_{i} f_{\text{redemption},i} + \sum_{j} f_{\text{swap},j} + \sum_{k} f_{\text{deposit},k}$$
+$$R_w = \sum_i f_{r,i} + \sum_j f_{s,j} + \sum_k f_{d,k}$$
+
+where $f_r$, $f_s$, and $f_d$ denote redemption, swap, and deposit fees respectively.
 
 Of this, 80% is distributed to veBOLLO holders and 20% flows to the DAO treasury.
 
