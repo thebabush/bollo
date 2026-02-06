@@ -1,0 +1,86 @@
+\documentclass[11pt,a4paper,twocolumn]{article}
+
+\usepackage{fontspec}
+\setmainfont{Palatino}
+\setmonofont[Scale=0.85]{Menlo}
+\usepackage[margin=2cm,columnsep=0.8cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{setspace}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[colorlinks=true,linkcolor=MidnightBlue,citecolor=MidnightBlue,urlcolor=MidnightBlue]{hyperref}
+
+% ── Colors ──
+\definecolor{accentgreen}{HTML}{009246}
+\definecolor{accentred}{HTML}{CE2B37}
+\definecolor{darkgray}{HTML}{333333}
+
+% ── Headers/Footers ──
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{gray}{BOLLO Protocol --- Whitepaper v1.0}}
+\fancyhead[R]{\small\textcolor{gray}{February 2026}}
+\fancyfoot[C]{\small\textcolor{gray}{\thepage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% ── Section styling ──
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{\z@}%
+  {-3ex \@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\large\bfseries\color{MidnightBlue}}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+  {-2.5ex \@plus -1ex \@minus -.2ex}%
+  {1ex \@plus .2ex}%
+  {\normalfont\normalsize\bfseries\color{MidnightBlue}}}
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+  {-2ex \@plus -1ex \@minus -.2ex}%
+  {0.5ex \@plus .2ex}%
+  {\normalfont\normalsize\itshape\color{darkgray}}}
+\makeatother
+
+% ── Title block ──
+\makeatletter
+\renewcommand{\maketitle}{%
+  \twocolumn[%
+    \begin{center}
+      \vspace*{1em}
+      {\LARGE\bfseries\color{MidnightBlue} $title$\par}
+      \vspace{0.5em}
+      {\large\color{darkgray} $subtitle$\par}
+      \vspace{1em}
+      {\normalsize $for(author)$$author$$sep$ \quad $endfor$\par}
+      \vspace{0.3em}
+      {\small\color{gray} $date$ — Version $version$\par}
+      \vspace{1.5em}
+      \rule{0.6\textwidth}{0.5pt}
+      \vspace{1em}
+      \begin{minipage}{0.85\textwidth}
+        \small\setstretch{1.15}
+        \textbf{Abstract.} $abstract$
+      \end{minipage}
+      \vspace{1.5em}
+      \rule{0.6\textwidth}{0.5pt}
+      \vspace{2em}
+    \end{center}
+  ]%
+}
+\makeatother
+
+% ── Tight list fix ──
+\providecommand{\tightlist}{\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}}
+
+% ── Table styling ──
+\captionsetup{font=small,labelfont=bf}
+
+\begin{document}
+\maketitle
+$body$
+\end{document}
